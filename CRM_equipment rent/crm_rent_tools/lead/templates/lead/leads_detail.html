@@ -1,0 +1,77 @@
+{% extends 'core/base.html' %}
+
+{% block title %}{{ lead.name }}{% endblock %}
+
+{% block content %}
+    <div class="py-6 px-6">
+
+        <h1 class="mb-4 text-xl ">{{ lead.name }}</h1>
+        {% if lead.description %}
+            <p class="font-semibold">Описание</p>
+            <p class="mb-2">{{ lead.description }}</p>
+        {% endif %}
+
+        <p class="font-semibold">Приоритет</p>
+        <p class="mb-2">{{ lead.get_priority_display }}</p>
+
+        <p class="font-semibold">Стаус</p>
+        <p class="mb-2">{{ lead.get_status_display }}</p>
+
+        <p class="font-semibold">Создан</p>
+        <p class="mb-2">{{ lead.created_at|date:'M-d-Y H:i' }}</p>
+
+        <p class="font-semibold">Обновлен</p>
+        <p class="mb-6">{{ lead.modified_at|date:'M-d-Y H:i' }}</p>
+
+
+        <hr class="my-4">
+        <a href="{% url 'convert_to_client' lead.id %}" class="inline-block py-2 px-4 bg-yellow-500 rounded-xl text-white" >Перевести в клиенты</a>
+        <a href="{% url 'leads_edit' lead.id %}" class="inline-block py-2 px-4 bg-teal-600 rounded-xl text-white" >Изменить</a>
+        <a href="{% url 'leads_delete' lead.id %}" class="inline-block py-2 px-4 bg-red-600 rounded-xl text-white">Удалить</a>
+        <a href="{% url 'leads_list' %}" class="inline-block py-2 px-4 bg-teal-600 rounded-xl text-white"  >Назад</a>
+
+
+
+        <hr class="my-4">
+
+        <h2 class="mb-6 text-xl">Комментарии</h2>
+
+        {% if lead.comments.all %}
+
+            <div class="space-y-4">
+                {% for comment in lead.comments.all %}
+                    <div class="bg-gray-100 p-6 rounded-xl">
+                        <p class="mb-2"><strong>{{ comment.created_by }}</strong> @ {{ comment.created_at }}</p>
+
+                        {{ comment.content }}
+                    </div>
+                {% endfor %}
+        </div>
+        {% else %}
+            <p>Пока нет комментариев.</p>
+        {% endif %}
+
+        <form method="post" action="{% url 'add_comment_lead' lead.id %}" class="my-4">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button class="py-2 px-4 rounded-xl bg-blue-500 text-white">Добавить комментарий</button>
+        </form>
+
+
+        <hr class="my-4">
+
+        <h2 class="mb-6 text-xl">Файлы</h2>
+
+        <form method="post" action="{% url 'add_file_lead' lead.id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label>Добавить файл </label>
+
+             {{ fileform.as_p }}
+            <button class="py-2 px-4 rounded-xl bg-blue-500 text-white">Загрузить</button>
+        </form>
+
+    </div>
+ {% endblock %}
+

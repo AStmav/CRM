@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+
+{% block title %} Регистрация {% endblock %}
+
+{% block content %}
+<div class="py-6 px-6">
+    <h1 class="mb-6 text-xl">Регистрация</h1>
+    <form method="post" action=".">
+
+        {% csrf_token %}
+        {{ form.username}}
+        {{ form.email}}
+        {{ form.password1}}
+        {{ form.password2}}
+        <button class="py-4 px-8 bg-teal-600  rounded-xl text-white">Регистрация</button>
+</div>
+{% endblock %}

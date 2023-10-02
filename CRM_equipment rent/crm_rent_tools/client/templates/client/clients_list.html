@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Список клиентов{% endblock %}
+
+{% block content %}
+    <div class="py-6 px-6">
+
+        <h1 class="mb-4 text-xl ">Список клиентов</h1>
+
+        <a href="{% url 'add_client' %}" class="inline-block py-2 px-4 bg-teal-600 rounded-xl text-white"> Добавить клиента</a>
+        <a href="{% url 'export' %}" class="inline-block py-2 px-4 bg-teal-600 rounded-xl text-white">Экспорт всех данных</a>
+
+
+        <div class="mt-6 flex justify-between bg-gray-200">
+            <p class="py-4 px-2 font-bold w-full">Имя</p>
+
+        </div>
+
+        {% for client in clients %}
+            <div class="flex justify-between">
+                <p class="py-4 px-2 w-full {% cycle 'bg-gray-100' '' %}">
+                    <a href="{% url 'clients_detail' client.id %}">{{client.name}}</a></p>
+
+            </div>
+        {% empty %}
+        <p class="px-2">Список клиентов пуст</p>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
+
+
+
+
+

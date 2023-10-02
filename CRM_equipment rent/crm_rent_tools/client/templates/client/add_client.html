@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Добавить клиента{% endblock %}
+
+{% block content %}
+    <div class="py-6 px-6">
+
+        <h1 class="py-6 px-6 text-xl ">Добавить клиента</h1>
+        {%  if team.plan.max_clients > team.clients.all|length%}
+            <form method="POST" action=".">
+                {% csrf_token %}
+                {{ form.as_p}}
+                <button class="py-2 px-4 bg-teal-600  rounded-xl text-white">Сохранить</button>
+            </form>
+        {% else %}
+            <div class="mt-6 px-6 py-4 bg-red-400 rounded-xl text-white">Вы досигли максималного колличества клиентов </div>
+        {% endif %}
+
+
+    </div>
+{% endblock %}

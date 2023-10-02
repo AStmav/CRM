@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Дашбоард СРМ{% endblock %}
+
+{% block content %}
+<div class="py-6 px-6">
+    <h1 class="mb-6 text-xl">Дашбоард СРМ</h1>
+
+    <div class="flex space-x-4">
+        <div class="w-1/2 px-4 py-6 bg-gray-100 rounded-xl leads">
+            <h2 class="mb-4 text-lg">Новые Лиды:</h2>
+
+            {% for lead in leads %}
+                <div class="mb-2 lead">
+                    <h3 class="font-semibold">{{ lead.name }}</h3>
+
+                    <p class="text-xs">Статус: {{ lead.get_status_display }}</p>
+                    <p class="text-xs">Приоритет: {{ lead.get_priority_display }}</p>
+
+                    <a href="{% url 'leads_detail' lead.pk %}">Подробнее</a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="w-1/2 px-4 py-6 bg-gray-100 rounded-xl clients">
+            <h2 class="mb-4 text-lg">Новые клиенты:</h2>
+
+            {% for client in clients %}
+                <div class="mb-2 client">
+                    <h3 class="font-semibold">{{ client.name }}</h3>
+
+                    <a href="{% url 'clients_detail' client.pk %}">Подробнее</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
